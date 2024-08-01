@@ -2,11 +2,11 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { useAuth } from '../context/AuthContext'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
-  const { login } = useAuth();
-  const history = useHistory();
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <Formik
@@ -23,7 +23,7 @@ const Register = () => {
       })}
       onSubmit={(values) => {
         login({ name: values.name, email: values.email })
-        history.push('/login')
+        navigate('/login')
       }}
     >
       {({ isSubmitting }) => (

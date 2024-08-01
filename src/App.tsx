@@ -1,22 +1,21 @@
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+// src/App.tsx
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
+import LoginPage from './pages/Login'
+import RegisterPage from './pages/Register'
 import HomePage from './pages/HomePage'
-import Login from './pages/Login'
-import Register from './pages/Register'
 
 const App = () => {
   const { isAuthenticated } = useAuth()
 
   return (
     <Router>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/home">
-          {isAuthenticated ? <HomePage /> : <Redirect to="/login" />}
-        </Route>
-        <Redirect from="/" to="/login" />
-      </Switch>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
     </Router>
   )
 }
