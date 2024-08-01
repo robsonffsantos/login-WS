@@ -1,11 +1,11 @@
-import { useFormik } from 'formik'
-import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
+// src/pages/Register.tsx
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
-const RegisterPage = () => {
-  const { login } = useAuth()
-  const navigate = useNavigate()
+const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -17,54 +17,62 @@ const RegisterPage = () => {
       name: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
       password: Yup.string()
-        .min(8, 'Must be 8 characters or more')
-        .matches(/[a-z]/, 'Must contain a lowercase letter')
-        .matches(/[A-Z]/, 'Must contain an uppercase letter')
-        .matches(/[0-9]/, 'Must contain a number')
+        .min(8, 'Password must be at least 8 characters')
+        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/\d/, 'Password must contain at least one number')
         .required('Required'),
     }),
     onSubmit: (values) => {
-      // Registrar o usuário e logar
-      login({ name: values.name, email: values.email })
+      // Salvar dados do usuário no local storage
+      localStorage.setItem('user', JSON.stringify(values));
+      // Redirecionar para a página de login após o cadastro
       navigate('/login');
     },
-  })
+  });
 
   return (
     <div>
-      <h2>Register</h2>
+      <h1>Register</h1>
       <form onSubmit={formik.handleSubmit}>
         <div>
-          <label>Name</label>
+          <label htmlFor="name">Name</label>
           <input
-            type="text"
+            id="name"
             name="name"
+            type="text"
             onChange={formik.handleChange}
             value={formik.values.name}
           />
+          {formik.errors.name && formik.touched.name ? <div>{formik.errors.name}</div> : null}
         </div>
         <div>
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="email"
+            id="email"
             name="email"
+            type="email"
             onChange={formik.handleChange}
             value={formik.values.email}
           />
+          {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
         </div>
         <div>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
-            type="password"
+            id="password"
             name="password"
+            type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
           />
+          {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
         </div>
         <button type="submit">Register</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;
+
