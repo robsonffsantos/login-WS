@@ -1,11 +1,12 @@
-// src/pages/Register.tsx
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Importa o hook de tradução
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation(); // Hook para tradução
 
   const formik = useFormik({
     initialValues: {
@@ -14,14 +15,14 @@ const RegisterPage: React.FC = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Nome é obrigatório'),
-      email: Yup.string().email('Email inválido').required('Email é obrigatório'),
+      name: Yup.string().required(t('name_required')),
+      email: Yup.string().email(t('email_invalid')).required(t('email_required')),
       password: Yup.string()
-        .min(8, 'A senha deve ter pelo menos 8 caracteres')
-        .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
-        .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
-        .matches(/\d/, 'A senha deve conter pelo menos um número')
-        .required('Senha é obrigatória'),
+        .min(8, t('password_min_length'))
+        .matches(/[A-Z]/, t('password_uppercase'))
+        .matches(/[a-z]/, t('password_lowercase'))
+        .matches(/\d/, t('password_number'))
+        .required(t('password_required')),
     }),
     onSubmit: (values) => {
       localStorage.setItem('user', JSON.stringify(values));
@@ -32,11 +33,11 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center">Registrar</h2>
+        <h2 className="text-2xl font-bold text-center">{t('register')}</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Nome
+              {t('name')}
             </label>
             <input
               id="name"
@@ -50,7 +51,7 @@ const RegisterPage: React.FC = () => {
           </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
+              {t('email')}
             </label>
             <input
               id="email"
@@ -64,7 +65,7 @@ const RegisterPage: React.FC = () => {
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Senha
+              {t('password')}
             </label>
             <input
               id="password"
@@ -80,14 +81,14 @@ const RegisterPage: React.FC = () => {
             type="submit"
             className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Registrar
+            {t('register')}
           </button>
         </form>
         <button
           onClick={() => navigate('/login')}
           className="w-full px-4 py-2 mt-4 text-sm font-medium text-indigo-600 bg-white border border-indigo-600 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Voltar para Login
+          {t('back_to_login')}
         </button>
       </div>
     </div>
