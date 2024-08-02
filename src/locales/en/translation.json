@@ -1,0 +1,8 @@
+{
+    "welcome": "Welcome, {{name}}!",
+    "thank_you": "Thank you for checking out this project!",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+}
+  
