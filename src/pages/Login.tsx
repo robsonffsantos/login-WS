@@ -1,12 +1,13 @@
-// src/pages/Login.tsx
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate()
+  const { login } = useAuth()
+  const [error, setError] = useState<string | null>(null)
 
   const formik = useFormik({
     initialValues: {
@@ -18,29 +19,17 @@ const LoginPage: React.FC = () => {
       password: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
-      // Recuperar os dados do usuário do local storage
-      const user = localStorage.getItem('user');
-      if (user) {
-        const storedUser = JSON.parse(user);
-        // Verificar se os dados fornecidos correspondem aos dados armazenados
-        if (
-          values.email === storedUser.email &&
-          values.password === storedUser.password
-        ) {
-          // Redirecionar para a página inicial após o login
-          navigate('/home');
-        } else {
-          setError('Invalid email or password');
-        }
+      if (login(values.email, values.password)) {
+        navigate('/home');
       } else {
-        setError('No user found. Please register.');
+        setError('Invalid email or password');
       }
     },
-  });
+  })
 
   const handleRegisterRedirect = () => {
-    navigate('/register');
-  };
+    navigate('/register')
+  }
 
   return (
     <div>
@@ -73,8 +62,7 @@ const LoginPage: React.FC = () => {
       {error && <div>{error}</div>}
       <button onClick={handleRegisterRedirect}>Create an account</button>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
-
+export default LoginPage

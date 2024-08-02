@@ -1,5 +1,6 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
-import { useAuth } from './context/AuthContext'
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Register'
 import HomePage from './pages/HomePage'
@@ -17,4 +18,12 @@ const App = () => {
   )
 }
 
-export default App
+const AppWrapper = () => (
+  <Router>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </Router>
+)
+
+export default AppWrapper

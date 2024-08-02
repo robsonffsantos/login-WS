@@ -1,41 +1,42 @@
-import { createContext, useState, useContext, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (userData: UserData) => void;
+  login: (email: string, password: string) => boolean;
   logout: () => void;
 }
 
-interface UserData {
-  name: string;
-  email: string;
-}
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-
-  const login = (userData: UserData) => {
-    setIsAuthenticated(true);
-    localStorage.setItem('user', JSON.stringify(userData))
+  const login = (email: string, password: string): boolean => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const storedUser = JSON.parse(user);
+      if (email === storedUser.email && password === storedUser.password) {
+        setIsAuthenticated(true);
+        return true;
+      }
+    }
+    return false;
   };
 
   const logout = () => {
-    setIsAuthenticated(false)
-    localStorage.removeItem('user')
-  }
+    setIsAuthenticated(false);
+  };
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context

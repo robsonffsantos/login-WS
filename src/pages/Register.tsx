@@ -1,11 +1,10 @@
-// src/pages/Register.tsx
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterPage: React.FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -24,12 +23,10 @@ const RegisterPage: React.FC = () => {
         .required('Required'),
     }),
     onSubmit: (values) => {
-      // Salvar dados do usuário no local storage
-      localStorage.setItem('user', JSON.stringify(values));
-      // Redirecionar para a página de login após o cadastro
-      navigate('/login');
+      localStorage.setItem('user', JSON.stringify(values))
+      navigate('/login')
     },
-  });
+  })
 
   return (
     <div>
@@ -71,8 +68,7 @@ const RegisterPage: React.FC = () => {
         <button type="submit">Register</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default RegisterPage;
-
+export default RegisterPage
