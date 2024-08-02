@@ -1,12 +1,13 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // Importa o hook de tradução
+import React from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from '../components/LanguageSelector'
 
 const RegisterPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { t } = useTranslation(); // Hook para tradução
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const formik = useFormik({
     initialValues: {
@@ -26,13 +27,14 @@ const RegisterPage: React.FC = () => {
     }),
     onSubmit: (values) => {
       localStorage.setItem('user', JSON.stringify(values));
-      navigate('/login');
+      navigate('/login')
     },
-  });
+  })
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+    <div className="flex flex-col items-center justify-center h-[90vh] bg-gray-100">
+      <LanguageSelector />
+      <div className="w-full max-w-md m-8 p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">{t('register')}</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
@@ -92,7 +94,7 @@ const RegisterPage: React.FC = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RegisterPage;
+export default RegisterPage

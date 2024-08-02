@@ -1,13 +1,12 @@
-// src/components/LanguageSelector.tsx
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const LanguageSelector: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation()
 
   const handleLanguageChange = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+    i18n.changeLanguage(lng)
+  }
 
   return (
     <div className="flex justify-end space-x-2">
@@ -24,8 +23,7 @@ const LanguageSelector: React.FC = () => {
         EN-US
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default LanguageSelector;
-
+export default LanguageSelector

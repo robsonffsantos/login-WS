@@ -1,21 +1,23 @@
-import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from '../components/LanguageSelector'
 
 const Home: React.FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const { t } = useTranslation(); // Hook para tradução
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+    logout()
+    navigate('/login')
+  }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md text-center">
+    <div className="flex flex-col items-center justify-center h-[90vh] bg-gray-100">
+      <LanguageSelector />
+      <div className="w-full max-w-md m-8 p-8 space-y-6 bg-white rounded shadow-md text-center">
         <h1 className="text-2xl font-bold">
           {t('welcome', { name: user?.name })}
         </h1>
@@ -28,8 +30,7 @@ const Home: React.FC = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
-
+export default Home

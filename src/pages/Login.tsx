@@ -1,14 +1,15 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from '../components/LanguageSelector'
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  const { t } = useTranslation(); // Hook para tradução
+  const navigate = useNavigate()
+  const { login } = useAuth()
+  const { t } = useTranslation()
 
   const formik = useFormik({
     initialValues: {
@@ -24,16 +25,17 @@ const LoginPage: React.FC = () => {
     onSubmit: (values) => {
       const isLoginSuccessful = login(values.email, values.password);
       if (isLoginSuccessful) {
-        navigate('/home');
+        navigate('/home')
       } else {
-        alert(t('login_failed'));
+        alert(t('login_failed'))
       }
     },
-  });
+  })
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+    <div className="flex flex-col items-center justify-center h-[90vh] bg-gray-100">
+      <LanguageSelector />
+      <div className="w-full max-w-md m-8 p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">{t('login')}</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
@@ -81,7 +83,7 @@ const LoginPage: React.FC = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
