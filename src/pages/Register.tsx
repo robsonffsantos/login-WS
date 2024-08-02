@@ -14,14 +14,14 @@ const RegisterPage: React.FC = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
+      name: Yup.string().required('Nome é obrigatório'),
+      email: Yup.string().email('Email inválido').required('Email é obrigatório'),
       password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
-        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-        .matches(/\d/, 'Password must contain at least one number')
-        .required('Required'),
+        .min(8, 'A senha deve ter pelo menos 8 caracteres')
+        .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
+        .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
+        .matches(/\d/, 'A senha deve conter pelo menos um número')
+        .required('Senha é obrigatória'),
     }),
     onSubmit: (values) => {
       localStorage.setItem('user', JSON.stringify(values));
@@ -32,21 +32,19 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h1 className="text-2xl font-bold text-center">Register</h1>
+        <h2 className="text-2xl font-bold text-center">Registrar</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name
+              Nome
             </label>
             <input
               id="name"
-              name="name"
               type="text"
-              onChange={formik.handleChange}
-              value={formik.values.name}
+              {...formik.getFieldProps('name')}
               className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-            {formik.errors.name && formik.touched.name ? (
+            {formik.touched.name && formik.errors.name ? (
               <div className="text-sm text-red-600">{formik.errors.name}</div>
             ) : null}
           </div>
@@ -56,29 +54,25 @@ const RegisterPage: React.FC = () => {
             </label>
             <input
               id="email"
-              name="email"
               type="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
+              {...formik.getFieldProps('email')}
               className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-            {formik.errors.email && formik.touched.email ? (
+            {formik.touched.email && formik.errors.email ? (
               <div className="text-sm text-red-600">{formik.errors.email}</div>
             ) : null}
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
+              Senha
             </label>
             <input
               id="password"
-              name="password"
               type="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
+              {...formik.getFieldProps('password')}
               className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-            {formik.errors.password && formik.touched.password ? (
+            {formik.touched.password && formik.errors.password ? (
               <div className="text-sm text-red-600">{formik.errors.password}</div>
             ) : null}
           </div>
@@ -86,13 +80,18 @@ const RegisterPage: React.FC = () => {
             type="submit"
             className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Register
+            Registrar
           </button>
         </form>
+        <button
+          onClick={() => navigate('/login')}
+          className="w-full px-4 py-2 mt-4 text-sm font-medium text-indigo-600 bg-white border border-indigo-600 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Voltar para Login
+        </button>
       </div>
     </div>
   );
 };
 
 export default RegisterPage;
-

@@ -1,43 +1,55 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => boolean;
-  logout: () => void;
+  user: { name: string; email: string } | null
+  login: (email: string, password: string) => boolean
+  logout: () => void
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+interface AuthProviderProps {
+  children: ReactNode
+}
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-  const login = (email: string, password: string): boolean => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      const storedUser = JSON.parse(user);
-      if (email === storedUser.email && password === storedUser.password) {
-        setIsAuthenticated(true);
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-  };
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [])
+
+  const login = (email: string, password: string) => {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      if (parsedUser.email === email && parsedUser.password === password) {
+        setUser(parsedUser)
+        return true
+      }
+    }
+    return false
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user')
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

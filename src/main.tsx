@@ -1,10 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import AppWrapper from './App'
-import './index.css'
+// src/main.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import AppWrapper from './App';
+import { AuthProvider } from './context/AuthContext';
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <AppWrapper />
+    <AuthProvider>
+      <AppWrapper />
+    </AuthProvider>
   </React.StrictMode>,
-)
+);
