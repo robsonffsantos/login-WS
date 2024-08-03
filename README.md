@@ -1,5 +1,7 @@
 # Projeto de Autenticação com React e Tailwind CSS
 
+## Link do site: http://loginWS.surge.sh
+
 ## Descrição
 
 Este projeto é uma aplicação web de autenticação desenvolvida com **React**, **TypeScript** e **Tailwind CSS**. A aplicação permite que usuários realizem login, se registrem e acessem uma página inicial protegida. Além disso, oferece suporte para troca de idioma entre **Português (PT-BR)** e **Inglês (EN-US)**.
