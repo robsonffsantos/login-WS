@@ -16,7 +16,7 @@ i18n
         translation: ptTranslation,
       },
     },
-    fallbackLng: 'pt', // Idioma padrão
+    fallbackLng: 'pt',
     interpolation: {
       escapeValue: false,
     },
