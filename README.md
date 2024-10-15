@@ -90,7 +90,4 @@ Para executar o projeto localmente, siga os passos abaixo:
 ## Contato
 
 Se você tiver dúvidas ou sugestões, sinta-se à vontade para entrar em contato:
-
-- **Nome:** Robson Fernando Ferreira dos Santos
-- **E-mail:** robson.2501@hotmail.com
 - **LinkedIn:** [Robson Fernando](https://www.linkedin.com/in/robsonffdossantos/?locale=pt_BR)
